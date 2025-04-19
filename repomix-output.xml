@@ -1,0 +1,3760 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+<additional_info>
+
+</additional_info>
+
+</file_summary>
+
+<directory_structure>
+auth-app/.gitignore
+auth-app/eslint.config.js
+auth-app/index.html
+auth-app/package.json
+auth-app/README.md
+auth-app/src/apolloClient.js
+auth-app/src/App.css
+auth-app/src/App.jsx
+auth-app/src/assets/react.svg
+auth-app/src/AuthContext.jsx
+auth-app/src/AuthenticationWrapper.jsx
+auth-app/src/index.css
+auth-app/src/LoginComponent.jsx
+auth-app/src/main.jsx
+auth-app/src/RegisterComponent.jsx
+auth-app/vite.config.js
+community-app/.gitignore
+community-app/eslint.config.js
+community-app/index.html
+community-app/package.json
+community-app/public/vite.svg
+community-app/README.md
+community-app/src/App.css
+community-app/src/App.jsx
+community-app/src/assets/react.svg
+community-app/src/components/AIAssistantPage.jsx
+community-app/src/components/AIChatBot.jsx
+community-app/src/components/CreateHelpRequest.jsx
+community-app/src/components/CreatePost.jsx
+community-app/src/components/HelpRequestsList.jsx
+community-app/src/components/Navbar.jsx
+community-app/src/components/PostsList.jsx
+community-app/src/index.css
+community-app/src/main.jsx
+community-app/vite.config.js
+microservices/.env
+microservices/aiAgent.js
+microservices/auth-microservice.js
+microservices/community-engagement.js
+microservices/gateway.js
+microservices/package.json
+microservices/utils/cosineSimilarity.js
+microservices/utils/generateEmbeddings.js
+shell-app/.gitignore
+shell-app/eslint.config.js
+shell-app/index.html
+shell-app/package.json
+shell-app/public/vite.svg
+shell-app/README.md
+shell-app/src/apolloClient.js
+shell-app/src/App.css
+shell-app/src/App.jsx
+shell-app/src/assets/react.svg
+shell-app/src/components/NavBar.jsx
+shell-app/src/index.css
+shell-app/src/main.jsx
+shell-app/vite.config.js
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="auth-app/.gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</file>
+
+<file path="auth-app/eslint.config.js">
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+
+export default [
+  { ignores: ['dist'] },
+  {
+    files: ['**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  },
+]
+</file>
+
+<file path="auth-app/index.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="auth-app/package.json">
+{
+  "name": "auth-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3001 --strictPort",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview --port=3001 --strictPort",
+    "deploy": "npm run build && npm run preview"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.13.7",
+    "@originjs/vite-plugin-federation": "^1.4.0",
+    "graphql": "^16.10.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "vite": "^6.2.0"
+  }
+}
+</file>
+
+<file path="auth-app/README.md">
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+</file>
+
+<file path="auth-app/src/apolloClient.js">
+// src/apolloClient.js
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4002/graphql', // Your GraphQL endpoint
+});
+
+const authLink = setContext((_, { headers }) => {
+  // Get the token from localStorage
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+// Create Apollo Client using the concatenated link
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+  credentials: 'include', // if you need to include cookies
+});
+
+export default client;
+</file>
+
+<file path="auth-app/src/App.css">
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+</file>
+
+<file path="auth-app/src/App.jsx">
+// auth-app/src/App.jsx
+//
+// This module only exposes authentication components along with a wrapper
+// that provides Apollo Client (and optionally authentication context).
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Login from './LoginComponent';
+import Register from './RegisterComponent';
+import AuthenticationWrapper from './AuthenticationWrapper';
+
+export { Login, Register, AuthenticationWrapper };
+
+// Optionally, if the shell app wants to render a default component for debugging,
+// you might still export a default App like below:
+function App() {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
+  );
+}
+
+export default App;
+</file>
+
+<file path="auth-app/src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="auth-app/src/AuthContext.jsx">
+// src/AuthContext.jsx
+import React, { createContext, useState, useEffect } from 'react';
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // On component mount, check localStorage for a token and user data.
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+
+    if (token && storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoading(false);
+  }, []);
+
+  const login = (userData, token) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser(userData);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+</file>
+
+<file path="auth-app/src/AuthenticationWrapper.jsx">
+// auth-app/src/AuthenticationWrapper.jsx
+import React from 'react';
+import { ApolloProvider } from '@apollo/client';
+import client from './apolloClient';
+ import { AuthProvider } from './AuthContext';
+
+const AuthenticationWrapper = ({ children }) => {
+  return (
+    <ApolloProvider client={client}>
+       <AuthProvider>{children}</AuthProvider>
+    
+    </ApolloProvider>
+  );
+};
+
+export default AuthenticationWrapper;
+</file>
+
+<file path="auth-app/src/index.css">
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+</file>
+
+<file path="auth-app/src/LoginComponent.jsx">
+// auth-app/src/Login.jsx
+import React, { useState, useContext } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { AuthContext } from './AuthContext';
+
+const LOGIN_MUTATION = gql`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        id
+        username
+        email
+        role
+      }
+    }
+  }
+`;
+
+const LOGOUT_MUTATION = gql`
+  mutation Logout {
+    logout
+  }
+`;
+
+const Login = () => {
+  const { user, login, logout } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  // Login mutation hook
+  const [executeLogin, { loading: loginLoading }] = useMutation(LOGIN_MUTATION, {
+    onCompleted: (data) => {
+      login(data.login.user, data.login.token);
+    },
+    onError: (error) => {
+      setError(error.message);
+    }
+  });
+
+  // Logout mutation hook
+  const [executeLogout, { loading: logoutLoading }] = useMutation(LOGOUT_MUTATION, {
+    onCompleted: () => {
+      logout();
+    },
+    onError: (error) => {
+      setError(error.message);
+    },
+  });
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+    executeLogin({ variables: { email, password } });
+  };
+
+  const handleLogout = () => {
+    executeLogout();
+  };
+
+  return (
+    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
+      {!user ? (
+        <>
+          <h2>Login</h2>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <form onSubmit={handleLoginSubmit}>
+            <div style={{ marginBottom: '15px' }}>
+              <label>Email:</label>
+              <input 
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required 
+                style={{ width: '100%', padding: '8px' }}
+              />
+            </div>
+            <div style={{ marginBottom: '15px' }}>
+              <label>Password:</label>
+              <input 
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required 
+                style={{ width: '100%', padding: '8px' }}
+              />
+            </div>
+            <button 
+              type="submit"
+              disabled={loginLoading}
+              style={{
+                padding: '10px 15px',
+                backgroundColor: '#4285f4',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px'
+              }}
+            >
+              {loginLoading ? 'Logging in...' : 'Login'}
+            </button>
+          </form>
+        </>
+      ) : (
+        <>
+          <h2>Welcome, {user.username}</h2>
+          <button 
+            onClick={handleLogout}
+            disabled={logoutLoading}
+            style={{
+              padding: '10px 15px',
+              backgroundColor: '#4285f4',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px'
+            }}
+          >
+            {logoutLoading ? 'Logging out...' : 'Logout'}
+          </button>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Login;
+</file>
+
+<file path="auth-app/src/main.jsx">
+// src/main.jsx
+// src/main.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+import App from './App';
+import './index.css'; // Optional: your global CSS
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    
+        
+          <App />
+    
+     
+  </React.StrictMode>
+);
+</file>
+
+<file path="auth-app/src/RegisterComponent.jsx">
+// src/components/Register.jsx
+import React, { useState, useContext } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { AuthContext } from './AuthContext';
+
+const REGISTER_MUTATION = gql`
+  mutation register($username: String!, $email: String!, $password: String!, $role: String!) {
+    register(username: $username, email: $email, password: $password, role: $role) {
+      token
+      user {
+        id
+        username
+        email
+        role
+      }
+    }
+  }
+`;
+
+const Register = () => {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'resident'
+  });
+  const [error, setError] = useState('');
+  const { login } = useContext(AuthContext);
+  
+  const [executeRegister, { loading }] = useMutation(REGISTER_MUTATION, {
+    onCompleted: (data) => {
+      login(data.signup.user, data.signup.token);
+      // Optionally, redirect after signup
+    },
+    onError: (error) => {
+      setError(error.message);
+    }
+  });
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+    executeRegister({ variables: formData });
+  };
+  
+  return (
+    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
+      <h2>Register</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: '15px' }}>
+          <label>Username:</label>
+          <input 
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required 
+            style={{ width: '100%', padding: '8px' }}
+          />
+        </div>
+        <div style={{ marginBottom: '15px' }}>
+          <label>Email:</label>
+          <input 
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required 
+            style={{ width: '100%', padding: '8px' }}
+          />
+        </div>
+        <div style={{ marginBottom: '15px' }}>
+          <label>Password:</label>
+          <input 
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required 
+            style={{ width: '100%', padding: '8px' }}
+          />
+        </div>
+        <div style={{ marginBottom: '15px' }}>
+          <label>Role:</label>
+          <select name="role" value={formData.role} onChange={handleChange} style={{ width: '100%', padding: '8px' }}>
+            <option value="resident">Resident</option>
+            <option value="business_owner">Business Owner</option>
+            <option value="community_organizer">Community Organizer</option>
+          </select>
+        </div>
+        <button 
+          type="submit"
+          disabled={loading}
+          style={{
+            padding: '10px 15px',
+            backgroundColor: '#4285f4',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px'
+          }}
+        >
+          {loading ? 'Registering...' : 'Register'}
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default Register;
+</file>
+
+<file path="auth-app/vite.config.js">
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import federation from '@originjs/vite-plugin-federation'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(),
+    federation({
+      name: 'auth',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './LoginComponent': './src/LoginComponent.jsx',
+        './RegisterComponent': './src/RegisterComponent.jsx',
+        './AuthContext': './src/AuthContext.jsx',
+        './AuthenticationWrapper': './src/AuthenticationWrapper.jsx',
+        './App': './src/App.jsx',
+      },
+      shared:[
+        'react',
+        'react-dom',
+        '@apollo/client',
+        'graphql',
+        'react-router-dom',
+      
+      ],
+    }),
+  ],
+      server:{
+        port: 3001,
+        origin: 'http://localhost:3001',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        },
+      },
+        build: {
+          target: 'esnext',
+          minify: false,
+          cssCodeSplit: false,
+          modulePreload: false,
+        },
+      
+    });
+</file>
+
+<file path="community-app/.gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</file>
+
+<file path="community-app/eslint.config.js">
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+
+export default [
+  { ignores: ['dist'] },
+  {
+    files: ['**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  },
+]
+</file>
+
+<file path="community-app/index.html">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="community-app/package.json">
+{
+  "name": "community-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3002 --strictPort",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview --port=3002 --strictPort",
+    "deploy": "npm run build && npm run preview"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.13.7",
+    "@originjs/vite-plugin-federation": "^1.4.0",
+    "bootstrap": "^5.3.2",
+    "graphql": "^16.10.0",
+    "react": "^19.0.0",
+    "react-bootstrap": "^2.10.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "vite": "^6.2.0"
+  }
+}
+</file>
+
+<file path="community-app/public/vite.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+</file>
+
+<file path="community-app/README.md">
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+</file>
+
+<file path="community-app/src/App.css">
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+</file>
+
+<file path="community-app/src/App.jsx">
+// community-app/src/App.jsx
+import React from 'react';
+import CreateHelpRequest from './components/CreateHelpRequest';
+import Navbar from './components/Navbar';
+import PostsList from './components/PostsList';
+import CreatePost from './components/CreatePost';
+import AIChatBot from './components/AIChatBot';
+import AIAssistantPage from './components/AIAssistantPage';
+
+// Export each component individually for the shell to consume
+export { 
+  CreateHelpRequest, 
+  Navbar, 
+  PostsList, 
+  CreatePost,
+  AIChatBot,
+  AIAssistantPage
+};
+
+// Optionally provide a default export that renders them all for local testing:
+const App = () => {
+  return (
+    <div>
+      <Navbar />
+      <PostsList />
+      <CreateHelpRequest />
+      <CreatePost />
+      <AIChatBot />
+    </div>
+  );
+};
+
+export default App;
+</file>
+
+<file path="community-app/src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="community-app/src/components/AIAssistantPage.jsx">
+// community-app/src/components/AIAssistantPage.jsx
+import React from 'react';
+import { Container, Row, Col, Card } from 'react-bootstrap';
+import AIChatBot from './AIChatBot';
+
+const AIAssistantPage = () => {
+  return (
+    <Container className="mt-4">
+      <Row>
+        <Col md={8} className="mx-auto">
+          <Card>
+            <Card.Header className="bg-primary text-white">
+              <h4>Community AI Assistant</h4>
+            </Card.Header>
+            <Card.Body>
+              <p className="lead">
+                Welcome to the Community AI Assistant! This intelligent chatbot can help you:
+              </p>
+              <ul>
+                <li>Find relevant discussions in the community</li>
+                <li>Answer questions about community topics</li>
+                <li>Suggest related topics you might be interested in</li>
+              </ul>
+              <p>
+                Try asking questions like:
+              </p>
+              <ul>
+                <li>"What are people discussing about safety?"</li>
+                <li>"Tell me about recent community events"</li>
+                <li>"What topics are popular in the discussions?"</li>
+              </ul>
+              <p className="text-muted mt-4">
+                <small>
+                  The AI Assistant uses advanced language processing to retrieve relevant information
+                  from community discussions and provide helpful responses. It's powered by LangChain and
+                  Gemini AI to give you the most accurate and contextual information.
+                </small>
+              </p>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      
+      {/* The AIChatBot component will appear as a floating chat icon */}
+      <AIChatBot />
+    </Container>
+  );
+};
+
+export default AIAssistantPage;
+</file>
+
+<file path="community-app/src/components/AIChatBot.jsx">
+// community-app/src/components/AIChatBot.jsx
+import React, { useState, useRef, useEffect } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
+import { 
+  Container, 
+  Row, 
+  Col, 
+  Card, 
+  Form, 
+  Button, 
+  Spinner, 
+  Badge,
+  ListGroup 
+} from 'react-bootstrap';
+import { 
+  BsChatLeftDots, 
+  BsLightbulb, 
+  BsArrowReturnRight, 
+  BsSend 
+} from 'react-icons/bs';
+
+// GraphQL query for AI Chatbot
+const COMMUNITY_AI_QUERY = gql`
+  query CommunityAIQuery($input: String!) {
+    communityAIQuery(input: $input) {
+      text
+      suggestedQuestions
+      retrievedPosts {
+        id
+        title
+        content
+        category
+        createdAt
+        author {
+          id
+          username
+        }
+      }
+    }
+  }
+`;
+
+// Mock data for when the API is not available
+const getMockResponse = (query) => {
+  return {
+    text: `This is a mock response for your query: "${query}". In a real environment, this would be generated by the AI service.`,
+    suggestedQuestions: [
+      "What are recent community events?",
+      "How can I get involved in the community?",
+      "Tell me about safety initiatives"
+    ],
+    retrievedPosts: [
+      {
+        id: "mock1",
+        title: "Community Event Planning",
+        content: "We're organizing a community cleanup next Saturday at 10am. Everyone is welcome to join!",
+        category: "news",
+        createdAt: new Date().toISOString(),
+        author: { id: "user1", username: "community_admin" }
+      },
+      {
+        id: "mock2",
+        title: "Safety Tips",
+        content: "Remember to lock your doors and windows when leaving home. Report any suspicious activity to local authorities.",
+        category: "discussion",
+        createdAt: new Date().toISOString(),
+        author: { id: "user2", username: "safety_officer" }
+      }
+    ]
+  };
+};
+
+const AIChatBot = () => {
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [showChat, setShowChat] = useState(false);
+  const [typingAnimation, setTypingAnimation] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  // GraphQL query hook
+  const [executeQuery, { loading }] = useLazyQuery(COMMUNITY_AI_QUERY, {
+    fetchPolicy: 'network-only', // Don't use cache for AI responses
+    onError: (error) => {
+      console.error('GraphQL Error:', error);
+    }
+  });
+
+  // Scroll to bottom of messages when new ones are added
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  // Handle input submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!inputValue.trim()) return;
+    
+    // Add user message to chat
+    const userMessage = {
+      id: Date.now(),
+      sender: 'user',
+      text: inputValue,
+      timestamp: new Date().toISOString()
+    };
+    
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setTypingAnimation(true);
+    
+    console.log('Submitting query:', inputValue);
+    
+    // Simulate typing delay for demo
+    setTimeout(async () => {
+      try {
+        // First try the real GraphQL query
+        const { data, error } = await executeQuery({ 
+          variables: { input: userMessage.text } 
+        });
+        
+        setTypingAnimation(false);
+        
+        console.log('AI response data:', data);
+        console.log('AI response error:', error);
+        
+        // Add AI response to messages
+        if (data && data.communityAIQuery) {
+          const { text, suggestedQuestions, retrievedPosts } = data.communityAIQuery;
+          
+          const aiMessage = {
+            id: Date.now() + 1,
+            sender: 'ai',
+            text,
+            suggestedQuestions,
+            retrievedPosts,
+            timestamp: new Date().toISOString()
+          };
+          
+          setMessages(prev => [...prev, aiMessage]);
+        } else {
+          // Fall back to mock data if GraphQL fails
+          console.log('Using mock data since GraphQL query failed');
+          const mockData = getMockResponse(userMessage.text);
+          
+          const aiMessage = {
+            id: Date.now() + 1,
+            sender: 'ai',
+            text: mockData.text,
+            suggestedQuestions: mockData.suggestedQuestions,
+            retrievedPosts: mockData.retrievedPosts,
+            timestamp: new Date().toISOString()
+          };
+          
+          setMessages(prev => [...prev, aiMessage]);
+        }
+      } catch (error) {
+        console.error('Error querying AI:', error);
+        setTypingAnimation(false);
+        
+        // Use mock data as fallback
+        const mockData = getMockResponse(userMessage.text);
+        const aiMessage = {
+          id: Date.now() + 1,
+          sender: 'ai',
+          text: mockData.text,
+          suggestedQuestions: mockData.suggestedQuestions,
+          retrievedPosts: mockData.retrievedPosts,
+          timestamp: new Date().toISOString()
+        };
+        
+        setMessages(prev => [...prev, aiMessage]);
+      }
+    }, 1500); // 1.5 second delay to simulate thinking
+  };
+
+  // Handle suggested question click
+  const handleSuggestedQuestion = (question) => {
+    setInputValue(question);
+    // Auto-submit after a short delay
+    setTimeout(() => {
+      handleSubmit(new Event('submit', { cancelable: true }));
+    }, 500);
+  };
+
+  // Format timestamp
+  const formatTime = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  // Truncate text with ellipsis
+  const truncateText = (text, maxLength = 150) => {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
+
+  // Toggle chat window
+  const toggleChat = () => {
+    setShowChat(prev => !prev);
+    
+    // If opening chat and no messages, add a welcome message
+    if (!showChat && messages.length === 0) {
+      const welcomeMessage = {
+        id: Date.now(),
+        sender: 'ai',
+        text: 'Hello! I\'m your Community Assistant. I can help you find information about community discussions, events, and more. How can I assist you today?',
+        suggestedQuestions: [
+          'What are people discussing about safety?',
+          'Tell me about recent community events',
+          'What topics are popular in discussions?'
+        ],
+        timestamp: new Date().toISOString()
+      };
+      
+      setMessages([welcomeMessage]);
+    }
+  };
+
+  return (
+    <div className="ai-chatbot-wrapper">
+      {/* Chat button */}
+      <Button 
+        className="chat-toggle-btn" 
+        variant="primary" 
+        onClick={toggleChat}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          borderRadius: '50%',
+          width: '60px',
+          height: '60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
+          zIndex: 1000
+        }}
+      >
+        <BsChatLeftDots size={24} />
+      </Button>
+      
+      {/* Chat Window */}
+      {showChat && (
+        <div 
+          className="chat-window"
+          style={{
+            position: 'fixed',
+            bottom: '90px',
+            right: '20px',
+            width: '380px',
+            height: '550px',
+            zIndex: 1000,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+            borderRadius: '10px',
+            overflow: 'hidden'
+          }}
+        >
+          <Card className="h-100">
+            <Card.Header className="bg-primary text-white d-flex justify-content-between align-items-center">
+              <div className="d-flex align-items-center">
+                <BsLightbulb className="me-2" />
+                <h5 className="mb-0">Community Assistant</h5>
+              </div>
+              <Button 
+                variant="link" 
+                className="text-white p-0"
+                onClick={toggleChat}
+              >
+                ✕
+              </Button>
+            </Card.Header>
+            
+            <Card.Body 
+              className="messages-container"
+              style={{ 
+                overflowY: 'auto',
+                padding: '1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#f8f9fa'
+              }}
+            >
+              {messages.map(message => (
+                <div 
+                  key={message.id}
+                  className={`message ${message.sender === 'user' ? 'user-message' : 'ai-message'}`}
+                  style={{
+                    maxWidth: '80%',
+                    marginBottom: '15px',
+                    alignSelf: message.sender === 'user' ? 'flex-end' : 'flex-start'
+                  }}
+                >
+                  <div 
+                    className={`message-bubble ${message.sender === 'user' ? 'bg-primary text-white' : 'bg-white'}`}
+                    style={{
+                      padding: '10px 15px',
+                      borderRadius: '18px',
+                      boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+                      borderBottomLeftRadius: message.sender === 'user' ? '18px' : '5px',
+                      borderBottomRightRadius: message.sender === 'user' ? '5px' : '18px'
+                    }}
+                  >
+                    <p className="mb-1">{message.text}</p>
+                    <small className="message-time" style={{ opacity: 0.7, fontSize: '0.75rem' }}>
+                      {formatTime(message.timestamp)}
+                    </small>
+                  </div>
+                  
+                  {/* Suggested Questions */}
+                  {message.suggestedQuestions && message.suggestedQuestions.length > 0 && (
+                    <div className="suggested-questions mt-2">
+                      <small className="text-muted mb-1 d-block">Suggested questions:</small>
+                      <div className="d-flex flex-wrap gap-1">
+                        {message.suggestedQuestions.map((question, idx) => (
+                          <Button 
+                            key={idx}
+                            variant="outline-primary"
+                            size="sm"
+                            className="mb-1"
+                            onClick={() => handleSuggestedQuestion(question)}
+                          >
+                            <BsArrowReturnRight className="me-1" />
+                            {question}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Related Posts */}
+                  {message.retrievedPosts && message.retrievedPosts.length > 0 && (
+                    <div className="retrieved-posts mt-3">
+                      <small className="text-muted d-block mb-2">Related discussions:</small>
+                      <ListGroup>
+                        {message.retrievedPosts.map((post, idx) => (
+                          <ListGroup.Item key={idx} className="mb-2 p-2">
+                            <h6 className="mb-1">{post.title}</h6>
+                            <div className="d-flex align-items-center mb-1">
+                              <Badge bg="secondary" className="me-1">
+                                {post.category}
+                              </Badge>
+                              <small className="text-muted ms-2">
+                                by {post.author.username}
+                              </small>
+                            </div>
+                            <p className="mt-1 mb-0 small">
+                              {truncateText(post.content, 100)}
+                            </p>
+                          </ListGroup.Item>
+                        ))}
+                      </ListGroup>
+                    </div>
+                  )}
+                </div>
+              ))}
+              
+              {/* Loading indicator for when messages are being fetched */}
+              {loading && (
+                <div className="text-center my-3">
+                  <Spinner animation="border" variant="primary" size="sm" />
+                  <span className="ms-2">Loading response...</span>
+                </div>
+              )}
+              
+              <div ref={messagesEndRef} />
+            </Card.Body>
+            
+            <Card.Footer className="p-2 bg-white">
+              <Form onSubmit={handleSubmit}>
+                <div className="d-flex">
+                  <Form.Control
+                    type="text"
+                    placeholder="Ask me anything..."
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    disabled={loading || typingAnimation}
+                  />
+                  <Button 
+                    variant="primary" 
+                    type="submit" 
+                    className="ms-2"
+                    disabled={loading || typingAnimation || !inputValue.trim()}
+                  >
+                    <BsSend />
+                  </Button>
+                </div>
+              </Form>
+            </Card.Footer>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AIChatBot;
+</file>
+
+<file path="community-app/src/components/CreateHelpRequest.jsx">
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
+import { Container, Form, Button, Card } from 'react-bootstrap';
+import { gql } from '@apollo/client';
+
+const CREATE_HELP_REQUEST = gql`
+  mutation CreateHelpRequest($input: CreateHelpRequestInput!) {
+    createHelpRequest(input: $input) {
+      id
+      description
+      location
+      isResolved
+      createdAt
+    }
+  }
+`;
+
+function CreateHelpRequest() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    description: '',
+    location: '',
+  });
+
+  const [createHelpRequest, { loading, error }] = useMutation(CREATE_HELP_REQUEST, {
+    onCompleted: () => {
+      navigate('/help-requests');
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createHelpRequest({
+      variables: {
+        input: formData,
+      },
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <Container>
+      <Card className="mt-4">
+        <Card.Body>
+          <Card.Title>Create Help Request</Card.Title>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+                placeholder="Describe what kind of help you need"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Location</Form.Label>
+              <Form.Control
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="Where do you need help? (Optional)"
+              />
+            </Form.Group>
+
+            <Button type="submit" variant="primary" disabled={loading}>
+              {loading ? 'Creating...' : 'Create Help Request'}
+            </Button>
+
+            {error && (
+              <div className="mt-3 text-danger">
+                {error.message}
+              </div>
+            )}
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
+  );
+}
+
+export default CreateHelpRequest;
+</file>
+
+<file path="community-app/src/components/CreatePost.jsx">
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
+import { Container, Form, Button, Card, Alert } from 'react-bootstrap';
+import { gql } from '@apollo/client';
+import { AuthContext } from 'auth/AuthContext'; // Import AuthContext from auth-app remote
+
+const CREATE_POST = gql`
+  mutation createPost($input: CreatePostInput!) {
+    createPost(input: $input) {
+      id
+      title
+      content
+      category
+      createdAt
+    }
+  }
+`;
+
+function CreatePost() {
+// Use AuthContext to get the user
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    category: 'news',
+  });
+
+  const [createPost, { loading, error }] = useMutation(CREATE_POST, {
+    onCompleted: () => {
+      navigate('/posts');
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createPost({
+      variables: {
+        input: {
+          ...formData,
+        
+        },
+      },
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <Container>
+      <Card className="mt-4">
+        <Card.Body>
+          <Card.Title>Create New Post</Card.Title>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Category</Form.Label>
+              <Form.Select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                required
+              >
+                <option value="news">News</option>
+                <option value="discussion">Discussion</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>Content</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                name="content"
+                value={formData.content}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+
+            <Button type="submit" variant="primary" disabled={loading}>
+              {loading ? 'Creating...' : 'Create Post'}
+            </Button>
+
+            {error && (
+              <div className="mt-3 text-danger">
+                {error.message}
+              </div>
+            )}
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
+  );
+}
+
+export default CreatePost;
+</file>
+
+<file path="community-app/src/components/HelpRequestsList.jsx">
+import React from 'react';
+import { useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
+import { Container, Card, Button, Row, Col, Badge } from 'react-bootstrap';
+import { gql } from '@apollo/client';
+
+const GET_HELP_REQUESTS = gql`
+  query GetHelpRequests {
+    helpRequests {
+      id
+      description
+      location
+      isResolved
+      createdAt
+      author {
+        id
+        username
+      }
+      volunteers {
+        id
+        username
+      }
+    }
+  }
+`;
+
+function HelpRequestsList() {
+  const { loading, error, data } = useQuery(GET_HELP_REQUESTS);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <Container>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Help Requests</h2>
+        <Button as={Link} to="/create-help-request" variant="primary">
+          Create New Help Request
+        </Button>
+      </div>
+      <Row>
+        {data.helpRequests.map((request) => (
+          <Col key={request.id} xs={12} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>Help Request</Card.Title>
+                <Badge bg={request.isResolved ? 'success' : 'primary'} className="mb-2">
+                  {request.isResolved ? 'Resolved' : 'Open'}
+                </Badge>
+                <Card.Subtitle className="mb-2 text-muted">
+                  By {request.author.username} • {new Date(request.createdAt).toLocaleDateString()}
+                </Card.Subtitle>
+                <Card.Text>{request.description}</Card.Text>
+                {request.location && (
+                  <Card.Text className="text-muted">
+                    Location: {request.location}
+                  </Card.Text>
+                )}
+                <Card.Text>
+                  <small>Volunteers: {request.volunteers.length}</small>
+                </Card.Text>
+                <div className="d-flex gap-2">
+                  <Button
+                    as={Link}
+                    to={`/help-requests/${request.id}`}
+                    variant="outline-primary"
+                    size="sm"
+                  >
+                    View Details
+                  </Button>
+                  <Button variant="outline-success" size="sm">
+                    Volunteer
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
+}
+
+export default HelpRequestsList;
+</file>
+
+<file path="community-app/src/components/Navbar.jsx">
+// community-app/src/components/Navbar.jsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Navbar as BootstrapNavbar, Nav, Container } from 'react-bootstrap';
+
+function Navbar() {
+  return (
+    <BootstrapNavbar bg="primary" variant="dark" expand="lg">
+      <Container>
+        <BootstrapNavbar.Brand as={Link} to="/">
+          Community Engagement
+        </BootstrapNavbar.Brand>
+        <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
+        <BootstrapNavbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/posts">Posts</Nav.Link>
+            <Nav.Link as={Link} to="/create-post">Create Post</Nav.Link>
+            <Nav.Link as={Link} to="/help-requests">Help Requests</Nav.Link>
+            <Nav.Link as={Link} to="/ai-assistant">AI Assistant</Nav.Link>
+          </Nav>
+        </BootstrapNavbar.Collapse>
+      </Container>
+    </BootstrapNavbar>
+  );
+}
+
+export default Navbar;
+</file>
+
+<file path="community-app/src/components/PostsList.jsx">
+// community-app/src/components/PostsList.jsx
+import React from 'react';
+import { useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
+import { Container, Card, Button, Row, Col, Badge, Spinner } from 'react-bootstrap';
+import { gql } from '@apollo/client';
+
+// Keep the same query to get all posts
+const GET_POSTS = gql`
+  query GetPosts {
+    posts {
+      id
+      title
+      content
+      category
+      createdAt
+      author {
+        id
+        username
+      }
+    }
+  }
+`;
+
+function PostsList() {
+  const { loading, error, data } = useQuery(GET_POSTS);
+
+  // Show loading spinner while data is being fetched
+  if (loading) return (
+    <Container className="text-center my-5">
+      <Spinner animation="border" variant="primary" />
+      <p className="mt-2">Loading posts...</p>
+    </Container>
+  );
+
+  // Show error message if something went wrong
+  if (error) return (
+    <Container className="text-center my-5">
+      <div className="alert alert-danger">
+        Error loading posts: {error.message}
+      </div>
+    </Container>
+  );
+
+  // Show empty state if no posts are available
+  if (!data?.posts || data.posts.length === 0) {
+    return (
+      <Container className="text-center my-5">
+        <div className="alert alert-info">
+          No community posts available yet.
+        </div>
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Community Posts</h2>
+        
+      
+      </div>
+      <Row>
+        {data.posts.map((post) => (
+          <Col key={post.id} xs={12} className="mb-4">
+            <Card>
+              <Card.Body>
+                <Card.Title>{post.title}</Card.Title>
+                <Badge bg="primary" className="mb-2">
+                  {post.category}
+                </Badge>
+                <Card.Subtitle className="mb-2 text-muted">
+                  By {post.author.username} • {new Date(post.createdAt).toLocaleDateString()}
+                </Card.Subtitle>
+                <Card.Text>{post.content}</Card.Text>
+                <Button
+                  as={Link}
+                  to={`/posts/${post.id}`}
+                  variant="outline-primary"
+                  size="sm"
+                >
+                  View Details
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
+}
+
+export default PostsList;
+</file>
+
+<file path="community-app/src/index.css">
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+</file>
+
+<file path="community-app/src/main.jsx">
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+</file>
+
+<file path="community-app/vite.config.js">
+// community-app/vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import federation from '@originjs/vite-plugin-federation';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    
+    federation({
+      name: 'community-app',
+      filename: 'remoteEntry.js',
+      remotes: {
+        auth: 'http://localhost:3001/assets/remoteEntry.js',
+      },
+      exposes: {
+        './CommunityApp': './src/App.jsx',
+        './Navbar': './src/components/Navbar.jsx',
+        './PostsList': './src/components/PostsList.jsx',
+        './HelpRequestsList': './src/components/HelpRequestsList.jsx',
+        './CreatePost': './src/components/CreatePost.jsx',
+        './CreateHelpRequest': './src/components/CreateHelpRequest.jsx',
+        './AIChatBot': './src/components/AIChatBot.jsx',
+        './AIAssistantPage': './src/components/AIAssistantPage.jsx',
+      },
+      shared: ['react', 'react-dom', 'react-router-dom', '@apollo/client', 'graphql'],
+    }),
+  ],
+  server: {
+    port: 3002,
+    strictPort: true,
+  },
+  preview: {
+    port: 3002,
+    strictPort: true,
+  },
+  build: {
+    target: 'esnext',
+    minify: false,
+    cssCodeSplit: false,
+    modulePreload: false,
+    rollupOptions:{
+      external:['auth/AuthContext']
+    }
+  },
+});
+</file>
+
+<file path="microservices/.env">
+MONGO_URI = mongodb://localhost:27017/auth-microservice
+JWT_SECRET = secret321
+AUTH_URL=http://localhost:4000/graphql
+COMMUNITY_URL=http://localhost:4001/graphql
+GATEWAY_PORT=4002
+GEMINI_API_KEY=AIzaSyCOryfuw2gHwTkzlUkGArBGg1DeERmS0bs
+</file>
+
+<file path="microservices/aiAgent.js">
+// services/aiAgent.js
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const mongoose = require('mongoose');
+const { cosineSimilarity } = require('./utils/cosineSimilarity');
+require('dotenv').config();
+
+// Initialize Google Generative AI (Gemini)
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+/**
+ * Generate embeddings using Gemini's embedding model
+ * @param {string} text - Text to generate embeddings for
+ * @returns {Promise<number[]>} - Vector embedding representation
+ */
+async function generateEmbedding(text) {
+  try {
+    const embeddingModel = genAI.getGenerativeModel({ model: 'embedding-001' });
+    const embeddingResponse = await embeddingModel.embedContent({
+      content: {
+        parts: [{ text }],
+        role: 'user',
+      },
+    });
+
+    if (!embeddingResponse.embedding) throw new Error('No embedding generated');
+    return embeddingResponse.embedding.values;
+  } catch (error) {
+    console.error('Error generating embeddings with Gemini:', error);
+    throw new Error('Failed to generate embedding');
+  }
+}
+
+/**
+ * Utility function to generate embeddings for posts that don't have them
+ * This can be run as a one-time script or on-demand for new posts
+ */
+/**
+ * Utility function to generate embeddings for posts that don't have them
+ * This can be run as a one-time script or on-demand for new posts
+ */
+async function generateEmbeddingsForPosts() {
+  try {
+    // Access models directly from mongoose to avoid circular dependencies
+    const Post = mongoose.model('Post');
+    
+    // Find posts without embeddings
+    const posts = await Post.find({ 
+      $or: [
+        { embedding: { $exists: false } },
+        { embedding: { $size: 0 } },
+        { embedding: null }
+      ]
+    });
+    
+    console.log(`Found ${posts.length} posts without embeddings`);
+    
+    // Process each post
+    for (const post of posts) {
+      try {
+        // Generate content string combining title and content
+        const contentString = `Title: ${post.title}\nCategory: ${post.category}\nContent: ${post.content}`;
+        
+        // Generate embedding
+        const embedding = await generateEmbedding(contentString);
+        
+        // Update post with embedding
+        post.embedding = embedding;
+        await post.save();
+        
+        console.log(`Generated embedding for post: ${post._id}`);
+      } catch (error) {
+        console.error(`Error generating embedding for post ${post._id}:`, error);
+      }
+    }
+    
+    console.log('Finished generating embeddings for all posts');
+  } catch (error) {
+    console.error('Error in generating embeddings for posts:', error);
+  }
+}
+
+/**
+ * Retrieve relevant posts using vector similarity
+ * @param {string} query - User query
+ * @param {string} userId - Optional user ID for personalization
+ * @returns {Promise<Array>} - Array of relevant posts
+ */
+async function retrieveRelevantPosts(query, userId) {
+  try {
+    // Generate embedding for the query
+     // Access models directly from mongoose to avoid circular dependencies
+     const Post = mongoose.model('Post');
+     const UserInteraction = mongoose.model('UserInteraction');
+     
+    const queryEmbedding = await generateEmbedding(query);
+    
+    let posts = [];
+    let attempts = 0;
+    const maxAttempts = 2;
+    
+    while (posts.length === 0 && attempts < maxAttempts) {
+      // Retrieve all posts that have embeddings
+      posts = await Post.find({ 
+        embedding: { $exists: true, $ne: [] } 
+      }).populate('author', 'username');
+      
+      // If no posts with embeddings and this is the first attempt, try to generate them
+      if (posts.length === 0 && attempts === 0) {
+        console.log('No posts with embeddings found, attempting to generate embeddings');
+        await generateEmbeddingsForPosts();
+      }
+      
+      attempts++;
+
+      if (attempts === maxAttempts && posts.length === 0) {
+        console.log('Could not find or generate any posts with embeddings');
+        return [];
+      }
+    }
+    
+    // Calculate similarity scores for each post
+    const scoredPosts = posts.map(post => ({
+      post,
+      similarity: cosineSimilarity(queryEmbedding, post.embedding)
+    }));
+    
+    // Sort by similarity (descending) and take top 5
+    const rankedPosts = scoredPosts
+      .sort((a, b) => b.similarity - a.similarity)
+      .slice(0, 5)
+      .map(item => item.post);
+    
+    // If we have past interactions from this user, use them to improve results
+    if (userId) {
+      try {
+        const pastInteractions = await UserInteraction.find({ userId })
+          .sort({ createdAt: -1 })
+          .limit(3);
+        
+        if (pastInteractions.length > 0) {
+          const pastPostIds = pastInteractions.flatMap(interaction => interaction.retrievedPostIds);
+          
+          // If user has previously interacted with posts that aren't in our top results,
+          // check if any are somewhat relevant and add them
+          if (pastPostIds.length > 0) {
+            const pastPosts = await Post.find({
+              _id: { $in: pastPostIds },
+              embedding: { $exists: true, $ne: [] }
+            }).populate('author', 'username');
+            
+            // Score these past-interacted posts
+            const scoredPastPosts = pastPosts.map(post => ({
+              post,
+              similarity: cosineSimilarity(queryEmbedding, post.embedding)
+            }));
+            
+            // Add relevant past posts (similarity > 0.5) not already in top results
+            const topPostIds = new Set(rankedPosts.map(p => p._id.toString()));
+            
+            scoredPastPosts
+              .filter(item => item.similarity > 0.5 && !topPostIds.has(item.post._id.toString()))
+              .slice(0, 2)  // Add at most 2 additional posts
+              .forEach(item => rankedPosts.push(item.post));
+          }
+        }
+      } catch (error) {
+        console.error('Error retrieving user interactions:', error);
+        // Continue with just the semantically similar posts
+      }
+    }
+    
+    return rankedPosts;
+  } catch (error) {
+    console.error('Error retrieving relevant posts:', error);
+    return [];
+  }
+}
+
+/**
+ * Generate context-aware follow-up questions based on query and response
+ * @param {string} query - User query
+ * @param {string} aiResponse - AI generated response
+ * @returns {Array<string>} - List of follow-up questions
+ */
+function generateFollowUpQuestions(query, aiResponse) {
+  const suggestions = [];
+
+  // Topics related to safety and security
+  if (/safety|crime|security|protect|theft/i.test(query) || 
+      /suspicious|concerns|danger|unsafe|police/i.test(aiResponse)) {
+    suggestions.push(
+      "What safety measures has the community implemented recently?",
+      "Are there any neighborhood watch programs available?"
+    );
+  }
+
+  // Topics related to community events and activities
+  if (/event|activity|program|meetup|gathering/i.test(query) || 
+      /festival|meeting|workshop|class|session/i.test(aiResponse)) {
+    suggestions.push(
+      "When is the next community event scheduled?",
+      "How can I volunteer for community activities?"
+    );
+  }
+
+  // Topics related to local governance and policies
+  if (/policy|rule|governance|law|regulation/i.test(query) || 
+      /committee|board|council|decision|vote/i.test(aiResponse)) {
+    suggestions.push(
+      "Who are the current community representatives?",
+      "How can I participate in the decision-making process?"
+    );
+  }
+
+  // Topics related to infrastructure and development
+  if (/development|construction|building|infrastructure|renovation/i.test(query) || 
+      /project|plan|proposal|improvement|facility/i.test(aiResponse)) {
+    suggestions.push(
+      "What are the timeline expectations for these developments?",
+      "How will these changes affect the local environment?"
+    );
+  }
+
+  // If no specific topic was matched, provide general follow-ups
+  if (suggestions.length === 0) {
+    suggestions.push(
+      "Could you tell me more about recent community discussions?",
+      "Is there any way I can get more involved with the community?",
+      "What other topics are trending in community discussions?"
+    );
+  }
+
+  // Return up to 3 questions
+  return suggestions.slice(0, 3);
+}
+async function generateResponse(query, posts, userId) {
+  try {
+
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    
+    // Format posts for context
+    const postsContext = posts.map(post => {
+      return `Title: "${post.title}"
+Author: ${post.author.username}
+Category: ${post.category}
+Content: "${post.content}"`;
+    }).join('\n\n');
+    
+    // Get past interactions for better context
+    let pastContext = "";
+    if (userId) {
+      try {
+        const pastInteractions = await AIInteraction.find({ userId })
+          .sort({ createdAt: -1 })
+          .limit(3);
+        
+        if (pastInteractions.length > 0) {
+          pastContext = "Previous interactions:\n" + pastInteractions
+            .map(interaction => `User asked: "${interaction.query}"\nAI responded: "${interaction.response.substring(0, 100)}..."`)
+            .join('\n\n');
+        }
+      } catch (error) {
+        console.error('Error retrieving past interactions:', error);
+        // Continue without past context
+      }
+    }
+    
+    // Build the complete prompt
+    let prompt = `You are a helpful community assistant that helps users find relevant information from community discussions.
+A user has asked: "${query}"
+
+`;
+
+    if (pastContext) {
+      prompt += `${pastContext}\n\n`;
+    }
+
+    if (posts.length > 0) {
+      prompt += `Here are some relevant community posts that might address the query:
+${postsContext}
+`;
+    } else {
+      prompt += `I couldn't find any community posts directly related to this query. Please provide a general response.
+`;
+    }
+
+    // Add instruction for response generation
+    prompt += `
+Based on the above information, please:
+1. Provide a helpful response to the user's query.
+2. If the query is ambiguous, ask for clarification.
+3. Be concise but informative in your response.
+4. Format your response as a friendly community assistant.
+`;
+
+    // Generate response
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    
+    // Generate follow-up questions based on both query and response
+    const suggestedQuestions = generateFollowUpQuestions(query, responseText);
+    
+    return {
+      text: responseText,
+      suggestedQuestions
+    };
+  } catch (error) {
+    console.error('Error generating AI response:', error);
+    return {
+      text: "Sorry, I encountered an error generating a response. Please try again later.",
+      suggestedQuestions: ["Could you try rephrasing your question?"]
+    };
+  }
+}
+
+/**
+ * Main function to handle AI queries
+ * @param {string} input - User input query
+ * @param {string} userId - Optional user ID for personalization
+ * @returns {Promise<Object>} - Complete response with text, suggested questions, and posts
+ */
+async function handleAIQuery(input, userId) {
+  try {
+    // 1. Retrieve relevant posts based on query
+    console.log('Starting handleAIQuery with input:', input, 'and userId:', userId);
+    const posts = await retrieveRelevantPosts(input, userId);
+    console.log('Retrieved posts:', posts);
+    // 2. Generate AI response
+    const aiResponse = await generateResponse(input, posts, userId);
+    console.log('Generated AI response:', aiResponse);
+    // 3. Store interaction in MongoDB for future reference
+    const postIds = posts.map(post => post._id);
+    const interaction = new AIInteraction({
+      query: input,
+      response: aiResponse.text,
+      suggestedQuestions: aiResponse.suggestedQuestions,
+      retrievedPostIds: postIds,
+      userId: userId
+    });
+    await interaction.save();
+    
+    // 4. Return the complete response
+    return {
+      text: aiResponse.text,
+      suggestedQuestions: aiResponse.suggestedQuestions,
+      retrievedPosts: posts
+    };
+  } catch (error) {
+    console.error('Error handling AI query:', error);
+    throw new Error('Failed to process AI query');
+  }
+}
+
+// Export the main function and utility functions
+module.exports = { 
+  handleAIQuery,
+  generateEmbeddingsForPosts  
+};
+</file>
+
+<file path="microservices/auth-microservice.js">
+const express = require('express');
+const mongoose = require ('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');    
+const cors = require('cors');
+const dotenv = require('dotenv');
+const{ApolloServer, gql} = require('apollo-server-express');
+const { buildSubgraphSchema } = require('@apollo/federation');
+const cookieParser = require('cookie-parser');
+
+const app = express();
+dotenv.config();
+
+app.use(cors({
+      origin: ['http://localhost:3001', 'http://localhost:4000','http://localhost:4001','http://localhost:4002', 'https://studio.apollographql.com'], // Add the sandbox URL
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    }));
+app.use(express.json());
+app.use(cookieParser());
+
+mongoose.connect(process.env.MONGO_URI, {});
+const db = mongoose.connection;
+db.on('error', (error) => console.error('MongoDB connection error:', error));
+db.once('open', () => console.log('MongoDB connected'));
+
+//userschema
+const UserSchema = new mongoose.Schema({
+    username:{type:String, required:true, unique:true},
+    email:{type:String, required:true, unique:true},
+    password:{type:String, required:true},
+    role:{type:String, default:'resident',enum:['resident', 'business_owner','community_organizer']},
+    createdAt:{type:Date, default:Date.now}
+})
+// Hash the password before saving if it is new or modified
+UserSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    
+    try {
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
+      next();
+    } catch (error) {
+      next(error);
+    }
+  });
+  
+  // Instance method to compare candidate password with stored hash
+  UserSchema.methods.comparePassword = async function(candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
+  };
+const User = mongoose.model('User', UserSchema);
+module.exports = User;
+
+//graphql schema
+const typeDefs = gql`
+    type User @key(fields: "id") {
+        id: ID!
+        username: String!
+        email: String!
+        password: String!
+        role: String!
+        createdAt: String!
+    }
+        type AuthPayload {
+        token: String!
+        user: User!
+    }
+    type Query{
+    me: User
+    }
+    type Mutation {
+        register(username: String!, email: String!, password: String!,role: String!): AuthPayload!
+        login(email: String!, password: String!): AuthPayload!
+        logout: Boolean!
+    }
+`;
+module.exports = typeDefs;
+const resolvers = {
+    User: {
+        __resolveReference: async (reference) => {
+          // This resolver is called when another service references a User
+          try {
+            const userId = reference.id;
+            const user = await User.findById(userId);
+            if (!user) {
+              console.error(`User with ID ${userId} not found`);
+              return null;
+            }
+            return {
+              id: user._id.toString(),
+              username: user.username,
+              email: user.email,
+              role: user.role,
+              password: user.password, // Be careful with this in production!
+              createdAt: user.createdAt.toISOString()
+            };
+          } catch (error) {
+            console.error(`Error resolving user reference: ${error.message}`);
+            return {
+                id: userId,
+                username: "Error User",
+                email: "error@example.com",
+                role: "unknown"  
+            };
+          }
+        },
+      },
+
+    Query: {
+        me: async (_, __, { user }) => {
+            if (!user) throw new Error('Not authenticated');
+            return await User.findById(user.id);
+        },
+    },
+    Mutation: {
+        register: async (_, { username, email, password, role }) => {
+            const user = new User({ username, email, password,role });
+            await user.save();
+            const token = jwt.sign({ id: user._id,role:user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            return { token, user };
+            
+        },
+        login: async (_, { email, password }, { res }) => {
+            const user = await User.findOne({ email });
+            if (!user) throw new Error('User not found');
+            const isMatch = await user.comparePassword(password);
+            if (!isMatch) throw new Error('Invalid credentials');
+            
+            const token = jwt.sign({ id: user._id ,role:user.role}, process.env.JWT_SECRET, { expiresIn: '1h' });
+            res.cookie('token', token, { httpOnly: true, secure: false }); // Set secure to true in production
+            
+            return { token, user };
+        },
+        logout: (_, __, { res }) => {
+            res.clearCookie('token');
+            return true;
+        },
+    },
+};
+
+module.exports = resolvers;
+const server = new ApolloServer({
+    schema: buildSubgraphSchema([{ typeDefs, resolvers }]),
+    context: ({ req, res }) => {
+        const token = req.cookies.token;
+        let user = null;
+        if (token) {
+            try {
+                user = jwt.verify(token, process.env.JWT_SECRET);
+            } catch (err) {
+                console.error('Token verification failed:', err.message);
+            }
+        }
+        return { user, res };
+    },
+});
+server.start().then(() => {
+    server.applyMiddleware({ app, path: '/graphql' });
+    app.listen({ port: 4000 }, () => {
+        console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+    });
+}
+).catch((error) => {
+    console.error('Error starting server:', error);
+});
+</file>
+
+<file path="microservices/community-engagement.js">
+const express = require('express');
+const mongoose = require ('mongoose');
+const { handleAIQuery, generateEmbeddingsForPosts } = require('./aiAgent');
+const jwt = require('jsonwebtoken');    
+const cors = require('cors');
+const dotenv = require('dotenv');
+const{buildSubgraphSchema} = require('@apollo/federation');
+const { ApolloError, AuthenticationError, ForbiddenError } = require('apollo-server-express');
+
+
+const{ApolloServer, gql} = require('apollo-server-express');
+const cookieParser = require('cookie-parser');
+
+const app = express();
+dotenv.config();
+app.use(cors({
+      origin: ['http://localhost:4001','http://localhost:3001', 'http://localhost:4000', 'http://localhost:4002','https://studio.apollographql.com'], // Add the sandbox URL
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    }));
+    app.use(express.json());
+    app.use(cookieParser());
+    
+    mongoose.connect(process.env.MONGO_URI, {});
+    const db = mongoose.connection;
+    db.on('error', (error) => console.error('MongoDB connection error:', error));
+    db.once('open', () => console.log('MongoDB connected'));
+    
+    // models/Post.js
+const PostSchema = new mongoose.Schema({
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  category: { 
+    type: String, 
+    required: true, 
+    enum: ['news', 'discussion'] 
+  },
+  aiSummary: { type: String },
+  embedding: { type: [Number]},
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date }
+});
+
+
+
+
+const HelpRequestSchema = new mongoose.Schema({
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  description: { type: String, required: true },
+  location: { type: String },
+  isResolved: { type: Boolean, default: false },
+  volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date }
+});
+
+const UserInteractionSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  query: { type: String, required: true },
+  response: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  suggestedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+  suggestedQuestions: [{ type: String }],
+  suggestedHelpRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'HelpRequest' }],
+});
+const CommunityPost = mongoose.model('Post', PostSchema);
+const HelpRequest = mongoose.model('HelpRequest', HelpRequestSchema);
+const UserInteraction = mongoose.model('UserInteraction', UserInteractionSchema);
+module.exports = {
+  CommunityPost,
+  HelpRequest,
+  UserInteraction
+};
+
+//typeDefs
+const typeDefs = gql`
+  # User type (simplified version - full definition in auth service)
+  extend type User @key(fields: "id") {
+    id: ID! @external
+    username: String! @external
+    role: String! @external
+  }
+
+  # Community post type
+  type CommunityPost {
+    id: ID!
+    author: User!
+    title: String!
+    content: String!
+    category: String!
+    aiSummary: String
+    createdAt: String!
+    updatedAt: String
+  }
+
+  # Help request type
+  type HelpRequest {
+    id: ID!
+    author: User!
+    description: String!
+    location: String
+    isResolved: Boolean!
+    volunteers: [User]
+    createdAt: String!
+    updatedAt: String
+  }
+
+  # AI Response type
+  type AIResponse {
+    text: String!
+    suggestedQuestions: [String]!
+    retrievedPosts: [CommunityPost]!
+  }
+
+  # Input for creating a community post
+  input CreatePostInput {
+    title: String!
+    content: String!
+    category: String!
+  }
+
+  # Input for updating a community post
+  input UpdatePostInput {
+    id: ID!
+    title: String
+    content: String 
+    category: String
+  }
+
+  # Input for creating a help request
+  input CreateHelpRequestInput {
+    description: String!
+    location: String
+  }
+
+  # Input for updating a help request
+  input UpdateHelpRequestInput {
+    id: ID!
+    description: String
+    location: String
+    isResolved: Boolean
+  }
+
+  # Root Query type
+  type Query {
+    # Get all community posts
+    posts: [CommunityPost]
+    
+    # Get posts by category
+    postsByCategory(category: String!): [CommunityPost]
+    
+    # Get a specific post by ID
+    post(id: ID!): CommunityPost
+    
+    # Get all help requests
+    helpRequests: [HelpRequest]
+    
+    # Get a specific help request by ID
+    helpRequest(id: ID!): HelpRequest
+    
+    # Get my posts
+    myPosts: [CommunityPost]
+    
+    # Get my help requests
+    myHelpRequests: [HelpRequest]
+    
+    # AI-powered community query
+    communityAIQuery(input: String!): AIResponse!
+  }
+
+  # Root Mutation type
+  type Mutation {
+    # Create a new community post
+    createPost(input: CreatePostInput!): CommunityPost!
+    
+    # Update an existing community post
+    updatePost(input: UpdatePostInput!): CommunityPost!
+    
+    # Delete a community post
+    deletePost(id: ID!): Boolean!
+    
+    # Create a new help request
+    createHelpRequest(input: CreateHelpRequestInput!): HelpRequest!
+    
+    # Update a help request
+    updateHelpRequest(input: UpdateHelpRequestInput!): HelpRequest!
+    
+    # Delete a help request
+    deleteHelpRequest(id: ID!): Boolean!
+    
+    # Volunteer for a help request
+    volunteerForHelp(helpRequestId: ID!): HelpRequest!
+    
+    # Withdraw volunteering for a help request
+    withdrawVolunteer(helpRequestId: ID!): HelpRequest!
+    
+    replyToPost(postId: ID!, content: String!): CommunityPost!
+    
+    # Generate embeddings for posts
+    generateEmbeddingsForPosts: Boolean!
+    
+    # Generate embeddings for help requests
+    generateEmbeddingsForHelpRequests: Boolean!
+  }
+`;
+
+module.exports = typeDefs;
+
+// Utility function to format documents
+const formatDocument = (doc) => {
+  if (!doc) return null;
+
+  // Convert to plain object if it's a Mongoose document
+  const formatted = doc.toObject ? doc.toObject() : { ...doc };
+
+  // Format _id to id
+  if (formatted._id) {
+    formatted.id = formatted._id.toString();
+    delete formatted._id;
+  }
+
+  // Format author field
+  if (formatted.author) {
+    if (typeof formatted.author === 'object' && formatted.author._id) {
+      formatted.author = {
+        __typename: 'User',
+        id: formatted.author._id.toString(),
+      };
+    } else if (typeof formatted.author !== 'object') {
+      formatted.author = {
+        __typename: 'User',
+        id: formatted.author.toString(),
+      };
+    } else if (formatted.author.id && typeof formatted.author.id === 'object') {
+      // Handle Buffer objects
+      formatted.author.id = formatted.author.id.toString();
+    }
+  }
+
+  return formatted;
+};
+
+// Resolvers
+const resolvers = {
+  User: {
+    __resolveReference: async (reference) => {
+      // Convert the ID to string if it's an ObjectId
+      return {
+        ...reference,
+        id: reference.id.toString(),
+      };
+    },
+  },
+
+  Query: {
+    // Get all community posts
+    posts: async () => {
+      try {
+        const posts = await CommunityPost.find().sort({ createdAt: -1 });
+        return posts.map((post) => formatDocument(post));
+      } catch (error) {
+        throw new ApolloError(`Failed to fetch posts: ${error.message}`);
+      }
+    },
+
+    // Get posts by category
+    postsByCategory: async (_, { category }) => {
+      try {
+        const posts = await CommunityPost.find({ category }).sort({ createdAt: -1 });
+        return posts.map((post) => formatDocument(post));
+      } catch (error) {
+        throw new ApolloError(`Failed to fetch posts by category: ${error.message}`);
+      }
+    },
+
+    // Get a specific post by ID
+    post: async (_, { id }) => {
+      try {
+        const post = await CommunityPost.findById(id);
+        if (!post) {
+          throw new ApolloError('Post not found');
+        }
+        return formatDocument(post);
+      } catch (error) {
+        throw new ApolloError(`Failed to fetch post: ${error.message}`);
+      }
+    },
+
+    // Get all help requests
+    helpRequests: async () => {
+      try {
+        const helpRequests = await HelpRequest.find().sort({ createdAt: -1 });
+        return helpRequests.map((request) => formatDocument(request));
+      } catch (error) {
+        throw new ApolloError(`Failed to fetch help requests: ${error.message}`);
+      }
+    },
+
+    // Get a specific help request by ID
+    helpRequest: async (_, { id }) => {
+      try {
+        const helpRequest = await HelpRequest.findById(id);
+        if (!helpRequest) {
+          throw new ApolloError('Help request not found');
+        }
+        return formatDocument(helpRequest);
+      } catch (error) {
+        throw new ApolloError(`Failed to fetch help request: ${error.message}`);
+      }
+    },
+
+    // Get my posts
+    myPosts: async (_, __, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const posts = await CommunityPost.find({ author: user.id }).sort({ createdAt: -1 });
+        return posts.map((post) => formatDocument(post));
+      } catch (error) {
+        throw new ApolloError(`Failed to fetch your posts: ${error.message}`);
+      }
+    },
+
+    // Get my help requests
+    myHelpRequests: async (_, __, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const helpRequests = await HelpRequest.find({ author: user.id }).sort({ createdAt: -1 });
+        return helpRequests.map((request) => formatDocument(request));
+      } catch (error) {
+        throw new ApolloError(`Failed to fetch your help requests: ${error.message}`);
+      }
+    },
+    // AI-powered community query
+    communityAIQuery: async (_, { input }, { user }) => {
+      try {
+        
+        const userId = user ? user.id : null;
+        const result = await handleAIQuery(input, userId);
+        
+        return {
+          text: result.text,
+          suggestedQuestions: result.suggestedQuestions,
+          retrievedPosts: result.retrievedPosts.map(post => formatDocument(post))
+        };
+      } catch (error) {
+        console.error('Error in communityAIQuery resolver:', error);
+        throw new ApolloError('Failed to process AI query');
+      }
+    },
+  },
+
+  Mutation: {
+    // Create a new community post
+    createPost: async (_, { input }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const authorId = user.id.toString();
+        const newPost = new CommunityPost({
+          ...input,
+          author: authorId,
+        });
+        const savedPost = await newPost.save();
+        return formatDocument(savedPost);
+      } catch (error) {
+        throw new ApolloError(`Failed to create post: ${error.message}`);
+      }
+    },
+
+    // Update an existing community post
+    updatePost: async (_, { input }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const post = await CommunityPost.findById(input.id);
+        if (!post) {
+          throw new ApolloError('Post not found');
+        }
+        if (post.author.toString() !== user.id && !['community_organizer', 'business_owner'].includes(user.role)) {
+          throw new ForbiddenError('Not authorized to update this post');
+        }
+        Object.keys(input).forEach((key) => {
+          if (key !== 'id') {
+            post[key] = input[key];
+          }
+        });
+        post.updatedAt = new Date();
+        const updatedPost = await post.save();
+        return formatDocument(updatedPost);
+      } catch (error) {
+        throw new ApolloError(`Failed to update post: ${error.message}`);
+      }
+    },
+
+    // Delete a community post
+    deletePost: async (_, { id }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const post = await CommunityPost.findById(id);
+        if (!post) {
+          throw new ApolloError('Post not found');
+        }
+        if (post.author.toString() !== user.id && !['community_organizer', 'business_owner'].includes(user.role)) {
+          throw new ForbiddenError('Not authorized to delete this post');
+        }
+        await CommunityPost.findByIdAndDelete(id);
+        return true;
+      } catch (error) {
+        throw new ApolloError(`Failed to delete post: ${error.message}`);
+      }
+    },
+
+    // Create a new help request
+    createHelpRequest: async (_, { input }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      if (user.role !== 'resident') {
+        throw new ForbiddenError('Only residents can create help requests');
+      }
+      try {
+        const newHelpRequest = new HelpRequest({
+          ...input,
+          author: user.id.toString(),
+        });
+        const savedRequest = await newHelpRequest.save();
+        return formatDocument(savedRequest);
+      } catch (error) {
+        throw new ApolloError(`Failed to create help request: ${error.message}`);
+      }
+    },
+
+    // Update a help request
+    updateHelpRequest: async (_, { input }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const helpRequest = await HelpRequest.findById(input.id);
+        if (!helpRequest) {
+          throw new ApolloError('Help request not found');
+        }
+        if (helpRequest.author.toString() !== user.id && !['community_organizer', 'business_owner'].includes(user.role)) {
+          throw new ForbiddenError('Not authorized to update this help request');
+        }
+        Object.keys(input).forEach((key) => {
+          if (key !== 'id') {
+            helpRequest[key] = input[key];
+          }
+        });
+        helpRequest.updatedAt = new Date();
+        const updatedRequest = await helpRequest.save();
+        return formatDocument(updatedRequest);
+      } catch (error) {
+        throw new ApolloError(`Failed to update help request: ${error.message}`);
+      }
+    },
+
+    // Delete a help request
+    deleteHelpRequest: async (_, { id }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const helpRequest = await HelpRequest.findById(id);
+        if (!helpRequest) {
+          throw new ApolloError('Help request not found');
+        }
+        if (helpRequest.author.toString() !== user.id && !['community_organizer', 'business_owner'].includes(user.role)) {
+          throw new ForbiddenError('Not authorized to delete this help request');
+        }
+        await HelpRequest.findByIdAndDelete(id);
+        return true;
+      } catch (error) {
+        throw new ApolloError(`Failed to delete help request: ${error.message}`);
+      }
+    },
+
+    // Volunteer for a help request
+    volunteerForHelp: async (_, { helpRequestId }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const helpRequest = await HelpRequest.findById(helpRequestId);
+        if (!helpRequest) {
+          throw new ApolloError('Help request not found');
+        }
+        if (helpRequest.volunteers.includes(user.id)) {
+          throw new ApolloError('You are already volunteering for this help request');
+        }
+        helpRequest.volunteers.push(user.id);
+        const updatedRequest = await helpRequest.save();
+        return formatDocument(updatedRequest);
+      } catch (error) {
+        throw new ApolloError(`Failed to volunteer: ${error.message}`);
+      }
+    },
+
+    // Withdraw volunteering for a help request
+    withdrawVolunteer: async (_, { helpRequestId }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError('Not authenticated');
+      }
+      try {
+        const helpRequest = await HelpRequest.findById(helpRequestId);
+        if (!helpRequest) {
+          throw new ApolloError('Help request not found');
+        }
+        if (!helpRequest.volunteers.includes(user.id)) {
+          throw new ApolloError('You are not volunteering for this help request');
+        }
+        helpRequest.volunteers = helpRequest.volunteers.filter((vId) => vId.toString() !== user.id);
+        const updatedRequest = await helpRequest.save();
+        return formatDocument(updatedRequest);
+      } catch (error) {
+        throw new ApolloError(`Failed to withdraw volunteering: ${error.message}`);
+      }
+    },
+// Generate embeddings for all posts (admin function)
+generateEmbeddingsForPosts: async (_, __, { user }) => {
+  if (!user) {
+    throw new AuthenticationError('Not authenticated');
+  }
+
+  
+  try {
+    await generateEmbeddingsForPosts();
+    return true;
+  } catch (error) {
+    console.error('Error generating embeddings:', error);
+    throw new ApolloError(`Failed to generate embeddings: ${error.message}`);
+  }
+}
+  
+
+  },
+};
+
+module.exports = resolvers;
+
+async function startServer() {
+  const server = new ApolloServer({
+    schema: buildSubgraphSchema([{ typeDefs, resolvers }]),
+    context: ({ req }) => {
+      const token = req.headers.authorization || req.cookies.token;
+      let user = null;
+      if (token) {
+          try {
+              // Remove 'Bearer ' prefix if present
+              const tokenValue = token.startsWith('Bearer ') ? token.slice(7) : token;
+              user = jwt.verify(tokenValue, process.env.JWT_SECRET);
+          } catch (err) {
+              console.error('Token verification failed:', err.message);
+          }
+      }
+      return { user };
+    },
+  });
+  
+  await server.start();
+  server.applyMiddleware({ app, path: '/graphql', cors: false });
+  
+ const PORT = process.env.PORT || 4001;
+  app.listen(PORT, () => {
+    console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  });
+}
+startServer();
+</file>
+
+<file path="microservices/gateway.js">
+// gateway/index.js
+const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+const { ApolloGateway, IntrospectAndCompose, RemoteGraphQLDataSource } = require('@apollo/gateway');
+const cors = require('cors');
+require('dotenv').config();
+
+// Custom data source that forwards the authorization header
+class AuthenticatedDataSource extends RemoteGraphQLDataSource {
+  willSendRequest({ request, context }) {
+    if (context.token) {
+      // Ensure the token is properly formatted as a Bearer token
+      const formattedToken = context.token.startsWith('Bearer ') ? context.token : `Bearer ${context.token}`;
+      request.http.headers.set('authorization', formattedToken);
+    }
+  }
+}
+
+const gateway = new ApolloGateway({
+  supergraphSdl: new IntrospectAndCompose({
+    subgraphs: [
+      { name: 'auth', url: process.env.AUTH_URL || 'http://localhost:4000/graphql' },
+      { name: 'community', url: process.env.COMMUNITY_URL || 'http://localhost:4001/graphql' },
+
+    ],
+  }),
+  buildService({ name, url }) {
+    return new AuthenticatedDataSource({ url });
+  },
+});
+
+async function startGateway() {
+  const app = express();
+
+  app.use(express.json());
+  app.use(cors({
+    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002','https://studio.apollographql.com'],
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
+  
+  // Create the Apollo Server instance with your gateway
+  const server = new ApolloServer({
+    gateway,
+    subscriptions: false,
+    context: ({ req }) => {
+      return { token: req.headers.authorization || '' };
+    },
+  });
+
+  // Start the Apollo Server
+  await server.start();
+  // Apply Apollo middleware to the Express app
+  server.applyMiddleware({ app, path: '/graphql', cors: false });
+
+  const port = process.env.GATEWAY_PORT || 4002;
+  app.listen(port, () => {
+    console.log(`🚀 Gateway ready at http://localhost:${port}${server.graphqlPath}`);
+  });
+}
+
+startGateway().catch((error) => {
+  console.error('Error starting gateway:', error);
+});
+</file>
+
+<file path="microservices/package.json">
+{
+  "name": "microservices",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:auth": "node ./auth-microservice.js",
+    "start:community": "node ./community-engagement.js",
+    "start:gateway": "node ./gateway.js",
+    "start:all": "npm-run-all --parallel start:auth start:community start:gateway"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@apollo/federation": "^0.38.1",
+    "@apollo/gateway": "^2.10.1",
+    "@google/generative-ai": "^0.24.0",
+    "@langchain/google-genai": "^0.2.3",
+    "apollo-server": "^3.13.0",
+    "apollo-server-express": "^3.13.0",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.17.1",
+    "graphql": "^16.10.0",
+    "jsonwebtoken": "^9.0.2",
+    "langchain": "^0.3.21",
+    "mongoose": "^8.13.2"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
+</file>
+
+<file path="microservices/utils/cosineSimilarity.js">
+function cosineSimilarity(vecA, vecB) {
+
+    if (!vecA || !vecB || vecA.length !== vecB.length) return 0;
+  const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
+  const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+  const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+
+  if (magnitudeA === 0 || magnitudeB === 0) return 0;
+
+ // Return cosine similarity
+ return magnitudeA && magnitudeB ? dotProduct / (magnitudeA * magnitudeB) : 0;
+}
+module.exports = cosineSimilarity;
+</file>
+
+<file path="microservices/utils/generateEmbeddings.js">
+// scripts/generateEmbeddings.js
+import dotenv from 'dotenv';
+dotenv.config();
+const mongoose = require('mongoose');
+const { generateEmbeddingsForPosts } = require('../services/aiAgent');
+
+async function main() {
+  try {
+    // Connect to MongoDB
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('Connected to MongoDB');
+    
+    // Generate embeddings for all posts that don't have them
+    console.log('Starting to generate embeddings for posts...');
+    await generateEmbeddingsForPosts();
+    
+    console.log('Embedding generation completed successfully');
+  } catch (error) {
+    console.error('Error generating embeddings:', error);
+  } finally {
+    // Close MongoDB connection
+    await mongoose.connection.close();
+    console.log('MongoDB connection closed');
+  }
+}
+
+// Run the script
+main();
+</file>
+
+<file path="shell-app/.gitignore">
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+</file>
+
+<file path="shell-app/eslint.config.js">
+import js from '@eslint/js'
+import globals from 'globals'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+
+export default [
+  { ignores: ['dist'] },
+  {
+    files: ['**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        ecmaFeatures: { jsx: true },
+        sourceType: 'module',
+      },
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...reactHooks.configs.recommended.rules,
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  },
+]
+</file>
+
+<file path="shell-app/index.html">
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Portal - Shell</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+</file>
+
+<file path="shell-app/package.json">
+{
+  "name": "shell-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+   "dev": "vite --port=3000 --strictPort",
+"build": "vite build",
+"lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+"preview": "vite preview --port=3000--strictPort"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.13.7",
+    "@originjs/vite-plugin-federation": "^1.4.0",
+    "graphql": "^16.10.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "vite": "^6.2.0"
+  }
+}
+</file>
+
+<file path="shell-app/public/vite.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+</file>
+
+<file path="shell-app/README.md">
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+</file>
+
+<file path="shell-app/src/apolloClient.js">
+// shell-app/src/apolloClient.js
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+// Create HTTP link
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4002/graphql',
+  credentials: 'include',
+  fetchOptions: {
+    mode: 'cors',
+  },
+});
+
+// Create auth link
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
+
+// Create Apollo Client
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'network-only',
+    },
+    query: {
+      fetchPolicy: 'network-only',
+    },
+  },
+});
+
+export default client;
+</file>
+
+<file path="shell-app/src/App.css">
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+</file>
+
+<file path="shell-app/src/App.jsx">
+import React, { lazy, Suspense, useContext } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import { AuthContext } from 'auth/AuthContext';
+
+// Import auth-app remote components
+const Login = lazy(() => import('auth/LoginComponent'));
+const Register = lazy(() => import('auth/RegisterComponent'));
+
+// Import community-app remote components
+const PostsList = lazy(() => import('community/PostsList'));
+const CreatePost = lazy(() => import('community/CreatePost'));
+const CreateHelpRequest = lazy(() => import('community/CreateHelpRequest'));
+const HelpRequestsList = lazy(() => import('community/HelpRequestsList'));
+const AIAssistantPage = lazy(() => import('community/AIAssistantPage'));
+
+function App() {
+  const { user, loading } = useContext(AuthContext);
+  
+  if (loading) return <div>Loading authentication state...</div>;
+  
+  // Check if user has permission to create posts
+  const canCreatePosts = user && ['business_owner', 'community_organizer'].includes(user.role);
+    
+  console.log('User information:', user);
+  console.log('User role:', user?.role);
+  console.log('Can create posts:', canCreatePosts);
+  
+  return (
+    <div>
+      <NavBar canCreatePosts={canCreatePosts} />
+      <Suspense fallback={<div>Loading view...</div>}>
+        <Routes>
+          {!user ? (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </>
+          ) : (
+            <>
+              <Route path="/posts" element={<PostsList />} />
+              <Route path="/help-requests" element={<HelpRequestsList />} />
+              <Route path="/create-help-request" element={<CreateHelpRequest />} />
+              <Route path="/ai-assistant" element={<AIAssistantPage />} />
+              
+              {/* Conditionally render create-post route based on role */}
+              {canCreatePosts && (
+                <Route path="/create-post" element={<CreatePost user={user} canCreatePosts={canCreatePosts} />} />
+              )}
+              
+              {/* Redirect to posts as default page */}
+              <Route path="*" element={<Navigate to="/posts" replace />} />
+            </>
+          )}
+        </Routes>
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+</file>
+
+<file path="shell-app/src/assets/react.svg">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="35.93" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 228"><path fill="#00D8FF" d="M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621c6.238-30.281 2.16-54.676-11.769-62.708c-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848a155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233C50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165a167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266c13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923a168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586c13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.21-.974 4.76-1.488c29.348-9.723 48.443-25.443 48.443-41.52c0-15.417-17.868-30.326-45.517-39.844Zm-6.365 70.984c-1.4.463-2.836.91-4.3 1.345c-3.24-10.257-7.612-21.163-12.963-32.432c5.106-11 9.31-21.767 12.459-31.957c2.619.758 5.16 1.557 7.61 2.4c23.69 8.156 38.14 20.213 38.14 29.504c0 9.896-15.606 22.743-40.946 31.14Zm-10.514 20.834c2.562 12.94 2.927 24.64 1.23 33.787c-1.524 8.219-4.59 13.698-8.382 15.893c-8.067 4.67-25.32-1.4-43.927-17.412a156.726 156.726 0 0 1-6.437-5.87c7.214-7.889 14.423-17.06 21.459-27.246c12.376-1.098 24.068-2.894 34.671-5.345a134.17 134.17 0 0 1 1.386 6.193ZM87.276 214.515c-7.882 2.783-14.16 2.863-17.955.675c-8.075-4.657-11.432-22.636-6.853-46.752a156.923 156.923 0 0 1 1.869-8.499c10.486 2.32 22.093 3.988 34.498 4.994c7.084 9.967 14.501 19.128 21.976 27.15a134.668 134.668 0 0 1-4.877 4.492c-9.933 8.682-19.886 14.842-28.658 17.94ZM50.35 144.747c-12.483-4.267-22.792-9.812-29.858-15.863c-6.35-5.437-9.555-10.836-9.555-15.216c0-9.322 13.897-21.212 37.076-29.293c2.813-.98 5.757-1.905 8.812-2.773c3.204 10.42 7.406 21.315 12.477 32.332c-5.137 11.18-9.399 22.249-12.634 32.792a134.718 134.718 0 0 1-6.318-1.979Zm12.378-84.26c-4.811-24.587-1.616-43.134 6.425-47.789c8.564-4.958 27.502 2.111 47.463 19.835a144.318 144.318 0 0 1 3.841 3.545c-7.438 7.987-14.787 17.08-21.808 26.988c-12.04 1.116-23.565 2.908-34.161 5.309a160.342 160.342 0 0 1-1.76-7.887Zm110.427 27.268a347.8 347.8 0 0 0-7.785-12.803c8.168 1.033 15.994 2.404 23.343 4.08c-2.206 7.072-4.956 14.465-8.193 22.045a381.151 381.151 0 0 0-7.365-13.322Zm-45.032-43.861c5.044 5.465 10.096 11.566 15.065 18.186a322.04 322.04 0 0 0-30.257-.006c4.974-6.559 10.069-12.652 15.192-18.18ZM82.802 87.83a323.167 323.167 0 0 0-7.227 13.238c-3.184-7.553-5.909-14.98-8.134-22.152c7.304-1.634 15.093-2.97 23.209-3.984a321.524 321.524 0 0 0-7.848 12.897Zm8.081 65.352c-8.385-.936-16.291-2.203-23.593-3.793c2.26-7.3 5.045-14.885 8.298-22.6a321.187 321.187 0 0 0 7.257 13.246c2.594 4.48 5.28 8.868 8.038 13.147Zm37.542 31.03c-5.184-5.592-10.354-11.779-15.403-18.433c4.902.192 9.899.29 14.978.29c5.218 0 10.376-.117 15.453-.343c-4.985 6.774-10.018 12.97-15.028 18.486Zm52.198-57.817c3.422 7.8 6.306 15.345 8.596 22.52c-7.422 1.694-15.436 3.058-23.88 4.071a382.417 382.417 0 0 0 7.859-13.026a347.403 347.403 0 0 0 7.425-13.565Zm-16.898 8.101a358.557 358.557 0 0 1-12.281 19.815a329.4 329.4 0 0 1-23.444.823c-7.967 0-15.716-.248-23.178-.732a310.202 310.202 0 0 1-12.513-19.846h.001a307.41 307.41 0 0 1-10.923-20.627a310.278 310.278 0 0 1 10.89-20.637l-.001.001a307.318 307.318 0 0 1 12.413-19.761c7.613-.576 15.42-.876 23.31-.876H128c7.926 0 15.743.303 23.354.883a329.357 329.357 0 0 1 12.335 19.695a358.489 358.489 0 0 1 11.036 20.54a329.472 329.472 0 0 1-11 20.722Zm22.56-122.124c8.572 4.944 11.906 24.881 6.52 51.026c-.344 1.668-.73 3.367-1.15 5.09c-10.622-2.452-22.155-4.275-34.23-5.408c-7.034-10.017-14.323-19.124-21.64-27.008a160.789 160.789 0 0 1 5.888-5.4c18.9-16.447 36.564-22.941 44.612-18.3ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86s-22.86-10.235-22.86-22.86s10.235-22.86 22.86-22.86Z"></path></svg>
+</file>
+
+<file path="shell-app/src/components/NavBar.jsx">
+// shell-app/src/components/NavBar.jsx
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from 'auth/AuthContext';
+
+function NavBar() {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  // Check if user can create posts - removing role check
+  // const canCreatePosts = user && ['business_owner', 'community_organizer'].includes(user.role);
+  
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container">
+        <Link className="navbar-brand" to="/">Community Platform</Link>
+        <div className="navbar-nav">
+          {user ? (
+            <>
+              <Link className="nav-link" to="/posts">Posts</Link>
+              <Link className="nav-link" to="/help-requests">Help Requests</Link>
+              <Link className="nav-link" to="/ai-assistant">AI Assistant</Link>
+              
+              {/* Show "Create Post" for all users */}
+              <Link className="nav-link" to="/create-post">Create Post</Link>
+              
+              {/* Any user can create help requests */}
+              <Link className="nav-link" to="/create-help-request">Request Help</Link>
+              
+              <span className="nav-link">Welcome, {user.username} ({user.role})</span>
+              <button onClick={handleLogout} className="nav-link">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link className="nav-link" to="/login">Login</Link>
+              <Link className="nav-link" to="/register">Register</Link>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default NavBar;
+</file>
+
+<file path="shell-app/src/index.css">
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+</file>
+
+<file path="shell-app/src/main.jsx">
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import AuthenticationWrapper from 'auth/AuthenticationWrapper';
+import './index.css';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    
+        <BrowserRouter>
+        <AuthenticationWrapper>
+          <App />
+        </AuthenticationWrapper>
+        </BrowserRouter>
+      
+  </React.StrictMode>
+);
+</file>
+
+<file path="shell-app/vite.config.js">
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import federation from '@originjs/vite-plugin-federation';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    federation({
+      name: 'shell',
+      remotes: {
+        auth: 'http://localhost:3001/assets/remoteEntry.js',
+        community: 'http://localhost:3002/assets/remoteEntry.js'
+      },
+      shared: ['react', 'react-dom', 'react-router-dom', '@apollo/client', 'graphql'],
+    }),
+  ],
+  server: { port: 3000 },
+  build: { target: 'esnext', minify: false, cssCodeSplit: false, modulePreload: false },
+});
+</file>
+
+</files>
