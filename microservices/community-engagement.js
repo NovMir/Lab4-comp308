@@ -24,7 +24,7 @@ app.use(cors({
     const db = mongoose.connection;
     db.on('error', (error) => console.error('MongoDB connection error:', error));
     db.once('open', () => console.log('MongoDB connected'));
-const genAI = new GoogleGenerativeAI( process.env.GEMINI_API_KEY);
+const genAI = new GoogleGenerativeAI( process.env.GOOGLE_API_KEY);
 
 // ============= SCHEMAS =============
 
@@ -46,7 +46,7 @@ const PostSchema = new mongoose.Schema({
 
 PostSchema.index({ embedding: '2dsphere' });
 const HelpRequestSchema = new mongoose.Schema({
-  author: { type: mongoose.Schema.Types.ObjectId, required: true },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   description: { type: String, required: true },
   location: { type: String },
   isResolved: { type: Boolean, default: false },
@@ -56,7 +56,7 @@ const HelpRequestSchema = new mongoose.Schema({
 });
 
 const UserInteractionSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   query: { type: String, required: true },
   response: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
@@ -82,7 +82,10 @@ async function generateEmbedding(text) {
     const embeddingResponse = await embeddingModel.embedContent({
       content: {
         parts: [{ text }],
-        role: 'user',
+        metadata: {
+          title: 'Embedding for community post',
+          description: 'Generated embedding for community post content',
+        },
       },
     });
 
@@ -195,16 +198,28 @@ async function retrieveRelevantPosts(query) {
     // Generate embedding for the query
     const queryEmbedding = await generateEmbedding(query);
     console.log('Generated query embedding successfully');
-    
-    // Ensure that missing embeddings for posts are generated
-    await generateEmbeddingsForPosts();
-    
-    // Retrieve all posts with embeddings
-    const posts = await Post.find({ embedding: { $exists: true, $ne: [] } });
-    console.log(`Found ${posts.length} posts with embeddings after updating missing ones`);
 
+    let posts = [];
+    let attempts = 0;
+    const maxAttempts = 2;
+
+    while (posts.length === 0 && attempts < maxAttempts) {
+      // Retrieve all posts with embeddings
+      posts = await Post.find({ embedding: { $exists: true, $ne: [] } }).populate('author', 'username');
+      console.log(`Attempt ${attempts + 1}: Found ${posts.length} posts with embeddings`);
+
+      // If no posts with embeddings are found on the first attempt, try generating embeddings
+      if (posts.length === 0 && attempts === 0) {
+        console.log('No posts with embeddings found. Attempting to generate embeddings...');
+        await generateEmbeddingsForPosts();
+      }
+
+      attempts++;
+    }
+
+    // If no posts are found after max attempts, return an empty array
     if (posts.length === 0) {
-      console.log('No posts with embeddings found.');
+      console.log('No posts with embeddings found after all attempts.');
       return [];
     }
 
@@ -489,7 +504,6 @@ const typeDefs = gql`
 
   # AI Response type
   type AIResponse {
-  user:User!
     text: String!
     suggestedQuestions: [String]!
     retrievedPosts: [CommunityPost]!
@@ -557,7 +571,7 @@ const typeDefs = gql`
     myHelpRequests: [HelpRequest]
     
     # AI-powered community query
-    communityAIQuery(input: String!): AIResponse!
+    communityAIQuery(input: String!, userId:String): AIResponse!
   }
 
   # Root Mutation type
@@ -605,17 +619,28 @@ const formatDocument = (doc) => {
   // Convert to plain object if it's a Mongoose document
   const formatted = doc.toObject ? doc.toObject() : { ...doc };
 
-  const {_id, author, ...rest} = formatted;
-  return {
-    ...rest,
-    id: _id.toString(),
-    author: {
-      __typename: 'User',
-      id: author.toString(),
-      
-    },
+  // Format _id to id
+  if (formatted._id) {
+    formatted.id = formatted._id.toString();
+    delete formatted._id;
+  }
 
- 
+  // Format author field
+  if (formatted.author) {
+    if (typeof formatted.author === 'object' && formatted.author._id) {
+      formatted.author = {
+        __typename: 'User',
+        id: formatted.author._id.toString(),
+      };
+    } else if (typeof formatted.author !== 'object') {
+      formatted.author = {
+        __typename: 'User',
+        id: formatted.author.toString(),
+      };
+    } else if (formatted.author.id && typeof formatted.author.id === 'object') {
+      // Handle Buffer objects
+      formatted.author.id = formatted.author.id.toString();
+    }
   }
 
   return formatted;
@@ -716,40 +741,49 @@ const resolvers = {
       }
     },
     // AI-powered community query
-    communityAIQuery: async (_, { input }, { user }) => {
-      if (!user) {
-        throw new AuthenticationError('Not authenticated');
-      }
-      const userId = user.id;
-      console.log(`Received AI query: "${input}" from user: ${userId}`);
-      // 1. Retrieve relevant posts based on query
-      const posts = await retrieveRelevantPosts(input);
-      console.log(`Retrieved ${posts.length} relevant posts`);
-      // 2. Generate AI response
-      const response = await generateResponse(input, posts, userId);
-      console.log('Generated AI response successfully');
-      // 3. Store interaction in MongoDB for future reference
+    communityAIQuery: async (_, { input}, {userId }) => {
       try {
-        const postIds = posts.map(post => post._id);
-        const interaction = new UserInteraction({
-          userId: userId,
-          query: input,
-          response: response.text,
+        if (!userId) {
+          throw new AuthenticationError('Not authenticated');
+        const userId = user.id.toString();
+        }
+        console.log(`Received AI query: "${input}" from user: ${user.id}`);
+        
+        // 1. Retrieve relevant posts based on query
+        const posts = await retrieveRelevantPosts(input);
+        console.log(`Retrieved ${posts.length} relevant posts`);
+        
+        // 2. Generate AI response
+        const response = await generateResponse(input, posts, userId);
+        console.log('Generated AI response successfully');
+        
+        // 3. Store interaction in MongoDB for future reference
+        try {
+          const postIds = posts.map(post => post._id);
+          const interaction = new UserInteraction({
+            userId: userId,
+            query: input,
+            response: response.text,
+            suggestedQuestions: response.suggestedQuestions,
+            suggestedPosts: postIds
+          });
+          await interaction.save();
+          console.log(`Saved user interaction to database with ID: ${interaction._id}`);
+        } catch (error) {
+          console.error('Error saving user interaction:', error);
+          // Continue even if saving interaction fails
+        }
+        
+        // 4. Return the complete response
+        return {
+          text: response.text,
           suggestedQuestions: response.suggestedQuestions,
-          suggestedPosts: postIds
-        });
-        await interaction.save();
-        console.log(`Saved user interaction to database with ID: ${interaction._id}`);
+          retrievedPosts: posts.map(post => formatDocument(post))
+        };
       } catch (error) {
-        console.error('Error saving user interaction:', error);
-        // Continue even if saving interaction fails
+        console.error('Error in communityAIQuery resolver:', error);
+        throw new ApolloError(`Failed to process AI query: ${error.message}`);
       }
-      // 4. Return the complete response
-      return {
-        text: response.text,
-        suggestedQuestions: response.suggestedQuestions,
-        retrievedPosts: posts.map(post => formatDocument(post))
-      };
     },
     
     // Test AI integration
@@ -788,6 +822,9 @@ const resolvers = {
           ...input,
           author: authorId,
         });
+         // Generate embedding for the new post
+    const contentString = `Title: ${input.title}\nCategory: ${input.category}\nContent: ${input.content}`;
+    newPost.embedding = await generateEmbedding(contentString);
         const savedPost = await newPost.save();
         return formatDocument(savedPost);
       } catch (error) {
